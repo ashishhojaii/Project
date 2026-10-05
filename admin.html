@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#f5f5ef">
+	<title>Owner enquiries | SW Living Solutions</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+	<style>
+		:root { color-scheme: light; --paper: #f5f5ef; --white: #fffefa; --ink: #252d27; --muted: #71776e; --green: #34483a; --green-soft: #e7ece6; --rust: #a95236; --line: #dedfd6; --sans: 'DM Sans', sans-serif; --serif: 'Playfair Display', Georgia, serif; }
+		*, *::before, *::after { box-sizing: border-box; }
+		body { min-height: 100vh; margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+		button, input { font: inherit; }
+		a { color: inherit; text-decoration: none; }
+		.topbar { height: 68px; display: flex; align-items: center; justify-content: space-between; padding-inline: clamp(20px, 5vw, 72px); border-bottom: 1px solid var(--line); background: var(--white); }
+		.brand { display: flex; align-items: center; gap: 11px; font-size: 13px; font-weight: 700; }
+		.brand-mark { width: 34px; height: 34px; display: grid; place-items: center; background: var(--green); color: white; font-family: var(--serif); font-size: 19px; }
+		.topbar-link { color: var(--muted); font-size: 12px; }
+		main { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding-block: clamp(38px, 7vh, 76px); }
+		.eyebrow { color: var(--rust); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+		h1 { margin: 12px 0 8px; font-family: var(--serif); font-size: clamp(34px, 5vw, 51px); font-weight: 500; line-height: 1.1; }
+		.intro { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+		.panel { margin-top: 34px; border: 1px solid var(--line); background: var(--white); }
+		.login-panel { width: min(440px, 100%); margin: 42px auto 0; padding: clamp(23px, 5vw, 36px); }
+		.login-panel h2 { margin: 0 0 7px; font-family: var(--serif); font-size: 27px; font-weight: 500; }
+		.login-panel > p { margin: 0 0 23px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+		.field { display: grid; gap: 8px; margin-bottom: 17px; }
+		.field label { font-size: 11px; font-weight: 600; }
+		.field input, .search { width: 100%; min-height: 45px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 0; outline: none; background: var(--paper); color: var(--ink); font-size: 13px; }
+		.field input:focus, .search:focus { border-color: var(--green); }
+		.button { min-height: 45px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 0 17px; border: 0; background: var(--green); color: white; font-size: 12px; font-weight: 600; cursor: pointer; }
+		.button:hover { background: #27372c; }
+		.button:disabled { cursor: wait; opacity: .65; }
+		.login-panel .button { width: 100%; }
+		.status { min-height: 18px; margin: 14px 0 0; color: var(--rust); font-size: 11px; line-height: 1.6; }
+		.dashboard { display: none; }
+		.dashboard-bar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: 34px 0 15px; }
+		.metrics { display: flex; align-items: baseline; gap: 10px; }
+		.count { color: var(--green); font-family: var(--serif); font-size: 30px; }
+		.count-label { color: var(--muted); font-size: 11px; }
+		.tools { display: flex; align-items: center; gap: 9px; }
+		.search { width: min(250px, 43vw); min-height: 39px; font-size: 11px; }
+		.secondary { min-height: 39px; padding-inline: 12px; border: 1px solid var(--line); background: var(--white); color: var(--ink); font-size: 11px; }
+		.list { display: grid; border-top: 1px solid var(--line); }
+		.row { display: grid; grid-template-columns: minmax(150px, 1.1fr) minmax(130px, 1fr) minmax(120px, .8fr) minmax(130px, 1fr) auto; align-items: center; gap: 15px; padding: 16px 17px; border: 1px solid var(--line); border-top: 0; background: var(--white); }
+		.person { min-width: 0; }
+		.person strong { display: block; overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+		.person small, .row-detail small { display: block; margin-top: 5px; color: var(--muted); font-size: 10px; }
+		.row-detail { min-width: 0; overflow: hidden; color: var(--ink); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+		.row-detail small { overflow: hidden; text-overflow: ellipsis; }
+		.row-actions { display: flex; gap: 7px; }
+		.row-actions a { min-height: 32px; display: inline-flex; align-items: center; justify-content: center; padding-inline: 10px; border: 1px solid var(--line); color: var(--green); font-size: 10px; font-weight: 600; }
+		.row-actions a:hover { border-color: var(--green); background: var(--green-soft); }
+		.empty { padding: 35px 20px; border: 1px solid var(--line); border-top: 0; color: var(--muted); font-size: 12px; text-align: center; }
+		.footer { margin-top: 32px; color: var(--muted); font-size: 10px; }
+		@media (max-width: 760px) {
+			.dashboard-bar { align-items: flex-start; flex-direction: column; }
+			.tools { width: 100%; }
+			.search { flex: 1; width: auto; }
+			.row { grid-template-columns: minmax(0, 1fr) auto; gap: 11px 14px; padding: 15px; }
+			.person { grid-column: 1 / 2; }
+			.row-detail { grid-column: 1 / 2; }
+			.row-actions { grid-column: 2; grid-row: 1 / span 3; flex-direction: column; }
+		}
+		@media (max-width: 380px) {
+			.topbar { padding-inline: 14px; }
+			main { width: calc(100% - 28px); }
+			.row { padding-inline: 11px; }
+			.row-actions a { padding-inline: 7px; }
+		}
+	</style>
+</head>
+<body>
+	<header class="topbar">
+		<a class="brand" href="/"><span class="brand-mark">S</span><span>SW Living Solutions</span></a>
+		<a class="topbar-link" href="/">View website <span aria-hidden="true">↗</span></a>
+	</header>
+	<main>
+		<span class="eyebrow">Owner workspace</span>
+		<h1>Client enquiries</h1>
+		<p class="intro">A private view of project requests sent through your website.</p>
+		<section class="panel login-panel" id="login-view">
+			<h2>Sign in</h2>
+			<p>Enter your owner password to view saved enquiries.</p>
+			<form id="login-form">
+				<div class="field"><label for="password">Owner password</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+				<button class="button" type="submit">Sign in <span aria-hidden="true">↗</span></button>
+				<p class="status" id="login-status" role="status" aria-live="polite"></p>
+			</form>
+		</section>
+		<section class="dashboard" id="dashboard" aria-live="polite">
+			<div class="dashboard-bar">
+				<div class="metrics"><span class="count" id="count">0</span><span class="count-label">saved enquiries</span></div>
+				<div class="tools"><input class="search" id="search" type="search" placeholder="Search enquiries" aria-label="Search enquiries"><button class="button secondary" id="export" type="button">Export CSV</button><button class="button secondary" id="refresh" type="button">Refresh</button><button class="button secondary" id="logout" type="button">Sign out</button></div>
+			</div>
+			<p class="status" id="dashboard-status" role="status" aria-live="polite"></p>
+			<div class="list" id="list"></div>
+		</section>
+		<p class="footer">Private owner area · Client details are only shown after sign-in.</p>
+	</main>
+	<script>
+		const loginView = document.querySelector('#login-view');
+		const loginForm = document.querySelector('#login-form');
+		const loginStatus = document.querySelector('#login-status');
+		const dashboard = document.querySelector('#dashboard');
+		const dashboardStatus = document.querySelector('#dashboard-status');
+		const list = document.querySelector('#list');
+		const count = document.querySelector('#count');
+		const search = document.querySelector('#search');
+		let enquiries = [];
+		const request = async (url, options = {}) => {
+			const response = await fetch(url, { credentials: 'same-origin', ...options });
+			const result = response.status === 204 ? {} : await response.json();
+			if (!response.ok) throw new Error(result.error || 'Request failed. Please try again.');
+			return result;
+		};
+		const addText = (parent, tag, className, text) => {
+			const element = document.createElement(tag);
+			if (className) element.className = className;
+			element.textContent = text || '';
+			parent.append(element);
+			return element;
+		};
+		const formatDate = (value) => {
+			const date = new Date(`${value.replace(' ', 'T')}Z`);
+			return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+		};
+		const render = () => {
+			const query = search.value.trim().toLowerCase();
+			const filtered = enquiries.filter((enquiry) => Object.values(enquiry).some((value) => String(value ?? '').toLowerCase().includes(query)));
+			count.textContent = String(enquiries.length);
+			list.replaceChildren();
+			if (!filtered.length) {
+				addText(list, 'p', 'empty', enquiries.length ? 'No enquiries match your search.' : 'No enquiries have been submitted yet.');
+				return;
+			}
+			filtered.forEach((enquiry) => {
+				const row = addText(list, 'article', 'row', '');
+				const person = addText(row, 'div', 'person', '');
+				addText(person, 'strong', '', enquiry.name);
+				addText(person, 'small', '', enquiry.phone);
+				const project = addText(row, 'div', 'row-detail', '');
+				addText(project, 'span', '', `${enquiry.homeType} · ${enquiry.service}`);
+				addText(project, 'small', '', enquiry.message || 'No extra project details');
+				const location = addText(row, 'div', 'row-detail', enquiry.location);
+				const submitted = addText(row, 'div', 'row-detail', '');
+				addText(submitted, 'span', '', 'Submitted');
+				addText(submitted, 'small', '', formatDate(enquiry.createdAt));
+				const actions = addText(row, 'div', 'row-actions', '');
+				const phone = enquiry.phone.replace(/\D/g, '');
+				const call = document.createElement('a');
+				call.href = `tel:${phone}`;
+				call.textContent = 'Call';
+				actions.append(call);
+				const whatsapp = document.createElement('a');
+				whatsapp.href = `https://wa.me/${phone}`;
+				whatsapp.target = '_blank';
+				whatsapp.rel = 'noopener noreferrer';
+				whatsapp.textContent = 'WhatsApp';
+				actions.append(whatsapp);
+				location.title = enquiry.location;
+			});
+		};
+		const loadEnquiries = async () => {
+			dashboardStatus.textContent = 'Loading enquiries...';
+			try {
+				const result = await request('/api/admin/enquiries');
+				enquiries = result.enquiries;
+				dashboardStatus.textContent = '';
+				render();
+			} catch (error) {
+				if (error.message.includes('sign in')) {
+					showLogin();
+					loginStatus.textContent = 'Your session expired. Please sign in again.';
+					return;
+				}
+				dashboardStatus.textContent = error.message;
+			}
+		};
+		const exportCsv = async () => {
+			dashboardStatus.textContent = 'Preparing CSV export...';
+			try {
+				const response = await fetch('/api/admin/enquiries.csv', { credentials: 'same-origin' });
+				if (!response.ok) {
+					const result = await response.json().catch(() => ({}));
+					throw new Error(result.error || 'Unable to export enquiries.');
+				}
+				const blob = await response.blob();
+				const url = URL.createObjectURL(blob);
+				const link = document.createElement('a');
+				link.href = url;
+				link.download = 'sw-living-enquiries.csv';
+				document.body.append(link);
+				link.click();
+				link.remove();
+				URL.revokeObjectURL(url);
+				dashboardStatus.textContent = 'CSV downloaded successfully.';
+			} catch (error) {
+				dashboardStatus.textContent = error.message;
+			}
+		};
+		const showDashboard = () => {
+			loginView.hidden = true;
+			dashboard.style.display = 'block';
+			loadEnquiries();
+		};
+		const showLogin = () => {
+			loginView.hidden = false;
+			dashboard.style.display = 'none';
+		};
+		loginForm.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			const button = loginForm.querySelector('button');
+			button.disabled = true;
+			loginStatus.textContent = '';
+			try {
+				await request('/api/admin/login', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ password: new FormData(loginForm).get('password') })
+				});
+				loginForm.reset();
+				showDashboard();
+			} catch (error) {
+				loginStatus.textContent = error.message;
+			} finally {
+				button.disabled = false;
+			}
+		});
+		document.querySelector('#export').addEventListener('click', exportCsv);
+		document.querySelector('#refresh').addEventListener('click', loadEnquiries);
+		document.querySelector('#logout').addEventListener('click', async () => {
+			try { await request('/api/admin/logout', { method: 'POST' }); } catch (error) { dashboardStatus.textContent = error.message; }
+			showLogin();
+		});
+		search.addEventListener('input', render);
+		request('/api/admin/session').then(showDashboard).catch(() => showLogin());
+	</script>
+</body>
+</html>
